@@ -6,6 +6,7 @@ const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${co
 
 let resultsArray = [];
 
+
 async function getNasaPictures() {
     try {
         const response = await fetch(apiUrl);
@@ -15,5 +16,6 @@ async function getNasaPictures() {
         console.log(error);
     }
 }
+
 
 getNasaPictures();
