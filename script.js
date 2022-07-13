@@ -12,7 +12,8 @@ let resultsArray = [];
 let favorites = {};
 
 
-function updateDOM() {
+function createDOMNodes(page) {
+    const currentArray = page === 'results' ? resultsArray : Object.values(favorites);
     resultsArray.forEach((result) => {
         // Card Container
         const card = document.createElement('div');
@@ -62,11 +63,18 @@ function updateDOM() {
     });
 }
 
+function updateDOM(page) {
+    if(localStorage.getItem('nasaFavorites')) {
+        favorites = JSON.parse(localStorage.getItem('nasaFavorites'));
+    }
+    createDOMNodes(page);
+}
+
 async function getNasaPictures() {
     try {
         const response = await fetch(apiUrl);
         resultsArray = await response.json();
-        updateDOM();
+        updateDOM('favorites');
     } catch (error) {
         console.log(error);
     }
