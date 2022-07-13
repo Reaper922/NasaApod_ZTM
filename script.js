@@ -12,6 +12,18 @@ let resultsArray = [];
 let favorites = {};
 
 
+function showContent(page) {
+    window.scrollTo({ top:0, behavior: 'instant' });
+    if(page === 'results') {
+        resultsNav.classList.remove('hidden');
+        favoritesNav.classList.add('hidden');
+    } else {
+        resultsNav.classList.add('hidden');
+        favoritesNav.classList.remove('hidden');
+    }
+    loader.classList.add('hidden');
+}
+
 function createDOMNodes(page) {
     const currentArray = page === 'results' ? resultsArray : Object.values(favorites);
     currentArray.forEach((result) => {
@@ -74,13 +86,15 @@ function updateDOM(page) {
     }
     imagesContainer.textContent = '';
     createDOMNodes(page);
+    showContent(page);
 }
 
 async function getNasaPictures() {
+    loader.classList.remove('hidden');
     try {
         const response = await fetch(apiUrl);
         resultsArray = await response.json();
-        updateDOM('favorites');
+        updateDOM('results');
     } catch (error) {
         console.log(error);
     }
